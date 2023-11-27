@@ -32,9 +32,9 @@ impl TryFrom<Document> for User {
     type Error = OvError;
 
     fn try_from(value: Document) -> Result<Self, Self::Error> {
-        let id = value.get_object_id("_id").unwrap().to_hex();
-        let name = value.get_str("name").unwrap().to_string();
-        let password = value.get_str("password").unwrap().to_string();
+        let id = value.get_object_id("_id")?.to_string();
+        let name = value.get_str("name")?.to_string();
+        let password = value.get_str("password")?.to_string();
         Ok(User { id, name, password })
     }
 }

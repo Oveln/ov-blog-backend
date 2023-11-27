@@ -1,11 +1,13 @@
 use std::fmt::Display;
 
+use mongodb::bson::document::ValueAccessError;
+
 pub type OvResult<T> = Result<T, OvError>;
 
 #[derive(Debug)]
 pub enum OvError {
     DatabaseError(String),
-    DatabaseDataFormatError,
+    DatabaseDataFormatError(String),
 
     UserAleadyExist,
 }
@@ -19,5 +21,11 @@ impl Display for OvError {
 impl From<mongodb::error::Error> for OvError {
     fn from(err: mongodb::error::Error) -> Self {
         OvError::DatabaseError(err.to_string())
+    }
+}
+
+impl From<ValueAccessError> for OvError {
+    fn from(err: ValueAccessError) -> Self {
+        OvError::DatabaseDataFormatError(err.to_string())
     }
 }
