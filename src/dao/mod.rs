@@ -1,9 +1,10 @@
+pub mod article;
 pub mod user;
 use mongodb::{Client, Database};
 use tokio::sync::OnceCell;
 
 use crate::config::CONFIG;
- 
+
 const CLIENT_: OnceCell<Client> = OnceCell::const_new();
 
 // 获取客户端实例

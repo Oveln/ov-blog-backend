@@ -1,7 +1,5 @@
 use std::fmt::Display;
 
-use mongodb::bson::document::ValueAccessError;
-
 pub type OvResult<T> = Result<T, OvError>;
 
 #[derive(Debug)]
@@ -10,6 +8,10 @@ pub enum OvError {
     DatabaseDataFormatError(String),
 
     UserAleadyExist,
+
+    InvalidObjectId,
+
+    NotFound,
 }
 
 impl Display for OvError {
@@ -24,8 +26,8 @@ impl From<mongodb::error::Error> for OvError {
     }
 }
 
-impl From<ValueAccessError> for OvError {
-    fn from(err: ValueAccessError) -> Self {
+impl From<mongodb::bson::document::ValueAccessError> for OvError {
+    fn from(err: mongodb::bson::document::ValueAccessError) -> Self {
         OvError::DatabaseDataFormatError(err.to_string())
     }
 }
