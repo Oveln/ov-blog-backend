@@ -1,3 +1,4 @@
+use actix_cors::Cors;
 use actix_web::{get, App, HttpResponse, HttpServer, Responder};
 use log::info;
 use ov_blog_backend::{
@@ -17,7 +18,9 @@ async fn main() -> std::io::Result<()> {
     info!("start server");
 
     HttpServer::new(|| {
+        let cors = Cors::permissive();
         App::new()
+            .wrap(cors)
             .service(hello)
             .configure(user_config)
             .configure(article_config)
